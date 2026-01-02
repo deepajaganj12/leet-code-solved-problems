@@ -1,0 +1,37 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    mt19937 _rand;
+
+    Solution() {
+        _rand.seed(random_device{}());
+    }
+
+    int repeatedNTimes(vector<int>& nums) {
+        int i, j;
+        int n = nums.size();
+
+        while (true) {
+            i = _rand() % n;
+            j = _rand() % n;
+
+            if (i == j) continue;
+
+            if (nums[i] == nums[j]) {
+                return nums[i];
+            }
+        }
+    }
+};
+
+int main() {
+    Solution obj;
+
+    vector<int> nums = {1, 2, 3, 3};
+
+    cout << obj.repeatedNTimes(nums) << endl;
+
+    return 0;
+}
