@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+TreeNode* q[100000];
+int front = 0, back = 0;
+
+class Solution {
+public:
+    static int maxLevelSum(TreeNode* root) {
+        int idx = 0, sum = INT_MIN;
+        front = back = 0;
+
+        q[back++] = root;
+        int level = 1;
+
+        for (; front < back; level++) {
+            int qz = back - front;
+            int curSum = 0;
+
+            for (int i = 0; i < qz; i++) {
+                TreeNode* Node = q[front++];
+                curSum += Node->val;
+
+                if (Node->left)  q[back++] = Node->left;
+                if (Node->right) q[back++] = Node->right;
+            }
+
+            if (curSum > sum) {
+                sum = curSum;
+                idx = level;
+            }
+        }
+        return idx;
+    }
+};
+
+int main() {
+   
+
+    TreeNode* root = new TreeNode(1);
+    root->left = new TreeNode(7);
+    root->right = new TreeNode(0);
+    root->left->left = new TreeNode(7);
+    root->left->right = new TreeNode(-8);
+
+    cout << "Maximum Level Sum is at Level: "
+         << Solution::maxLevelSum(root) << endl;
+
+    return 0;
+}
