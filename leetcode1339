@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    const int mod = 1e9 + 7;
+    long long ans = LLONG_MIN, total = 0;
+
+    int dfs(TreeNode* root) {
+        if (!root) return 0;
+        int sum = root->val + dfs(root->left) + dfs(root->right);
+        ans = max(ans, (total - sum) * sum);
+        return sum;
+    }
+
+    int maxProduct(TreeNode* root) {
+        total = dfs(root);
+        dfs(root);
+        return ans % mod;
+    }
+};
+
+auto init = []() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    return 'c';
+}();
+
+int main() {
+    TreeNode* root = new TreeNode(1);
+    root->left = new TreeNode(2);
+    root->right = new TreeNode(3);
+    root->left->left = new TreeNode(4);
+    root->left->right = new TreeNode(5);
+
+    Solution sol;
+    cout << sol.maxProduct(root);
+
+    return 0;
+}
