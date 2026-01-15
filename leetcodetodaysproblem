@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int maximizeSquareHoleArea(int n, int m, vector<int>& hBars, vector<int>& vBars) {
+        sort(hBars.begin(), hBars.end());
+        sort(vBars.begin(), vBars.end());
+
+        auto maxSpan = [](vector<int>& bars) {
+            int res = 1, streak = 1;
+            for (int i = 1; i < bars.size(); i++) {
+                if (bars[i] - bars[i - 1] == 1)
+                    streak++;
+                else
+                    streak = 1;
+                res = max(res, streak);
+            }
+            return res + 1;
+        };
+
+        int s = min(maxSpan(hBars), maxSpan(vBars));
+        return s * s;
+    }
+};
+
+int main() {
+    int n, m;
+    cin >> n >> m;
+
+    int h;
+    cin >> h;
+    vector<int> hBars(h);
+    for (int i = 0; i < h; i++)
+        cin >> hBars[i];
+
+    int v;
+    cin >> v;
+    vector<int> vBars(v);
+    for (int i = 0; i < v; i++)
+        cin >> vBars[i];
+
+    Solution sol;
+    cout << sol.maximizeSquareHoleArea(n, m, hBars, vBars) << endl;
+
+    return 0;
+}
