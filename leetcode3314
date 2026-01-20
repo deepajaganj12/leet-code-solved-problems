@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> minBitwiseArray(vector<int>& nums) {
+        vector<int> res;
+        for (auto& n : nums) {
+            if (n & 1) {
+                int z = ((n + 1) & ~n) >> 1;
+                res.push_back(n & ~z);
+            } else {
+                res.push_back(-1);
+            }
+        }
+        return res;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    vector<int> nums(n);
+    for (int i = 0; i < n; i++) {
+        cin >> nums[i];
+    }
+
+    Solution sol;
+    vector<int> ans = sol.minBitwiseArray(nums);
+
+    for (int x : ans) {
+        cout << x << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
