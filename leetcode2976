@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int D[26][26];
+
+class Solution {
+public:
+    static inline void FW(vector<char>& original, vector<char>& changed, vector<int>& cost) {
+        fill(&D[0][0], &D[0][0] + 26 * 26, INT_MAX);
+        int sz = original.size();
+
+        for (int i = 0; i < sz; i++) {
+            int r = original[i] - 'a';
+            int c = changed[i] - 'a';
+            D[r][c] = min(D[r][c], cost[i]);
+        }
+
+        for (int i = 0; i < 26; i++) D[i][i] = 0;
+
+        for (int k = 0; k < 26; k++) {
+            for (int i = 0; i < 26; i++) {
+                if (D[i][k] == INT_MAX) continue;
+                for (int j = 0; j < 26; j++) {
+                    if (D[k][j] == INT_MAX) continue;
+                    D[i][j] = min(D[i][j], D[i][k] + D[k][j]);
+                }
+            }
+        }
+    }
+
+    static long long minimumCost(
+        string& source,
+        string& target,
+        vector<char>& original,
+        vector<char>& changed,
+        vector<int>& cost
+    ) {
+        FW(original, changed, cost);
+
+        long long ans = 0;
+        for (int i = 0; i < source.size(); i++) {
+            int r = source[i] - 'a';
+            int c = target[i] - 'a';
+            if (D[r][c] == INT_MAX) return -1;
+            ans += D[r][c];
+        }
+        return ans;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string source, target;
+    cin >> source >> target;
+
+    int n;
+    cin >> n;
+
+    vector<char> original(n), changed(n);
+    vector<int> cost(n);
+
+    for (int i = 0; i < n; i++) {
+        cin >> original[i] >> changed[i] >> cost[i];
+    }
+
+    cout << Solution::minimumCost(source, target, original, changed, cost);
+    return 0;
+}
