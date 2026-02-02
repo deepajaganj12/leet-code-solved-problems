@@ -1,0 +1,72 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+    long long Sum = 0;
+    multiset<int> small, large;
+
+    void add(int x, int m) {
+        small.insert(x);
+        Sum += x;
+        if ((int)small.size() > m) {
+            int v = *small.rbegin();
+            Sum -= v;
+            large.insert(v);
+            small.erase(prev(small.end()));
+        }
+    }
+
+    void remove(int x) {
+        auto it = small.find(x);
+        if (it != small.end()) {
+            Sum -= x;
+            small.erase(it);
+            if (!large.empty()) {
+                auto it2 = large.begin();
+                int v = *it2;
+                Sum += v;
+                small.insert(v);
+                large.erase(it2);
+            }
+        } else {
+            auto it2 = large.find(x);
+            if (it2 != large.end())
+                large.erase(it2);
+        }
+    }
+
+public:
+    long long minimumCost(vector<int>& nums, int k, int dist) {
+        int n = nums.size();
+        k--;
+
+        int end = dist + 2;
+        vector<int> win(nums.begin() + 1, nums.begin() + end);
+
+        nth_element(win.begin(), win.begin() + k, win.end());
+        small = multiset<int>(win.begin(), win.begin() + k);
+        large = multiset<int>(win.begin() + k, win.end());
+        Sum = accumulate(win.begin(), win.begin() + k, 0LL);
+
+        long long ans = nums[0] + Sum;
+
+        for (int l = 1, r = dist + 2; r < n; l++, r++) {
+            remove(nums[l]);
+            add(nums[r], k);
+            ans = min(ans, nums[0] + Sum);
+        }
+        return ans;
+    }
+};
+
+int main() {
+    int n, k, dist;
+    cin >> n;
+    vector<int> nums(n);
+    for (int i = 0; i < n; i++) cin >> nums[i];
+    cin >> k >> dist;
+
+    Solution sol;
+    cout << sol.minimumCost(nums, k, dist) << endl;
+    return 0;
+}
