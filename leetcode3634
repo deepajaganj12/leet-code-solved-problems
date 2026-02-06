@@ -1,0 +1,34 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int minRemoval(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+
+        int n = nums.size();
+        int l = 0, maxsize = 0;
+
+        for (int r = 0; r < n; ++r) {
+            while (l <= r && (long long)nums[r] > (long long)nums[l] * k)
+                ++l;
+            maxsize = max(maxsize, r - l + 1);
+        }
+        return n - maxsize;
+    }
+};
+
+int main() {
+    int n, k;
+    cin >> n >> k;
+
+    vector<int> nums(n);
+    for (int i = 0; i < n; i++) {
+        cin >> nums[i];
+    }
+
+    Solution obj;
+    cout << obj.minRemoval(nums, k) << endl;
+
+    return 0;
+}
