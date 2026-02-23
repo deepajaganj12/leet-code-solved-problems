@@ -1,0 +1,34 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    bool hasAllCodes(string s, int k) {
+        unordered_set<string> st;
+
+        for (int i = 0; i + k <= s.size(); i++) {
+            st.insert(s.substr(i, k));
+        }
+
+        return st.size() == (int)pow(2, k);
+    }
+};
+
+int main() {
+    Solution obj;
+
+    string s;
+    int k;
+
+    cin >> s;
+    cin >> k;
+
+    bool result = obj.hasAllCodes(s, k);
+
+    if (result)
+        cout << "Yes";
+    else
+        cout << "No";
+
+    return 0;
+}
