@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> sortByBits(vector<int>& arr) {
+        map<int, multiset<int>> bitmap;
+        for (int val : arr) {
+            int bits = __builtin_popcount(val);
+            bitmap[bits].insert(val);
+        }
+
+        vector<int> ans;
+        for (auto p : bitmap) {
+            for (int val : p.second) {
+                ans.push_back(val);
+            }
+        }
+        return ans;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    vector<int> arr(n);
+    
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    Solution obj;
+    vector<int> result = obj.sortByBits(arr);
+
+    for (int x : result) {
+        cout << x << " ";
+    }
+
+    return 0;
+}
