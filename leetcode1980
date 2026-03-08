@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    string findDifferentBinaryString(vector<string>& nums) {
+        int n = nums.size();
+        int size = pow(2, n);
+
+        vector<int> nu(size, 0);
+
+        for(string num : nums){
+            int val = stoi(num, nullptr, 2);
+            nu[val]++;
+        }
+
+        for(int i = 0; i < size; i++){
+            if(nu[i] == 0){
+                string ans = bitset<32>(i).to_string();
+                ans = ans.substr(32 - n);
+                return ans;
+            }
+        }
+
+        return string(n, '0');
+    }
+};
+
+int main() {
+    int n;
+    cout << "Enter number of binary strings: ";
+    cin >> n;
+
+    vector<string> nums(n);
+    
+    cout << "Enter binary strings:\n";
+    for(int i = 0; i < n; i++){
+        cin >> nums[i];
+    }
+
+    Solution obj;
+    string result = obj.findDifferentBinaryString(nums);
+
+    cout << "Different Binary String: " << result << endl;
+
+    return 0;
+}
