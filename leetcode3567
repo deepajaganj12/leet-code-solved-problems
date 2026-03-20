@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> minAbsDiff(vector<vector<int>>& grid, int k) {
+        int m = grid.size();
+        int n = grid[0].size();
+        vector<vector<int>> ans(m - k + 1, vector<int>(n - k + 1));
+        vector<int> vals(k * k);
+
+        for (int i = 0; i <= m - k; ++i) {
+            for (int j = 0; j <= n - k; ++j) {
+                int idx = 0;
+                for (int r = 0; r < k; ++r) {
+                    for (int c = 0; c < k; ++c) {
+                        vals[idx++] = grid[i + r][j + c];
+                    }
+                }
+
+                sort(vals.begin(), vals.end());
+
+                int min_diff = INT_MAX;
+                for (int x = 1; x < vals.size(); ++x) {
+                    if (vals[x] != vals[x - 1]) {
+                        min_diff = min(min_diff, vals[x] - vals[x - 1]);
+                    }
+                }
+
+                ans[i][j] = (min_diff == INT_MAX) ? 0 : min_diff;
+            }
+        }
+        return ans;
+    }
+};
+
+int main() {
+    int m, n, k;
+    cin >> m >> n >> k;
+
+    vector<vector<int>> grid(m, vector<int>(n));
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < n; ++j) {
+            cin >> grid[i][j];
+        }
+    }
+
+    Solution obj;
+    vector<vector<int>> result = obj.minAbsDiff(grid, k);
+
+    for (auto &row : result) {
+        for (auto &val : row) {
+            cout << val << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
