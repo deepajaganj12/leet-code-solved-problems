@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    bool canBeEqual(string s1, string s2) {
+        return ((s1[0] == s2[0] && s1[2] == s2[2]) ||
+                (s1[0] == s2[2] && s1[2] == s2[0])) &&
+               ((s1[1] == s2[1] && s1[3] == s2[3]) ||
+                (s1[1] == s2[3] && s1[3] == s2[1]));
+    }
+};
+
+int main() {
+    Solution sol;
+
+    string s1, s2;
+    cout << "Enter first string (length 4): ";
+    cin >> s1;
+
+    cout << "Enter second string (length 4): ";
+    cin >> s2;
+
+    if (sol.canBeEqual(s1, s2)) {
+        cout << "Yes, strings can be made equal.\n";
+    } else {
+        cout << "No, strings cannot be made equal.\n";
+    }
+
+    return 0;
+}
