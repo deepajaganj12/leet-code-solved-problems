@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    static constexpr int mod = 1e9 + 7;
+
+    static void apply_q(vector<int>& nums, vector<int>& q) {
+        int l = q[0], r = q[1], k = q[2], v = q[3];
+        for (int i = l; i <= r; i += k) {
+            long long x = nums[i];
+            x *= v;
+            if (x >= mod) x %= mod;
+            nums[i] = x;
+        }
+    }
+
+    static int xorAfterQueries(vector<int>& nums, vector<vector<int>>& queries) {
+        for (auto& q : queries)
+            apply_q(nums, q);
+        
+        return accumulate(nums.begin(), nums.end(), 0, bit_xor<int>());
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    vector<int> nums(n);
+    for (int i = 0; i < n; i++) {
+        cin >> nums[i];
+    }
+
+    int q;
+    cin >> q;
+
+    vector<vector<int>> queries(q, vector<int>(4));
+    for (int i = 0; i < q; i++) {
+        cin >> queries[i][0] >> queries[i][1] >> queries[i][2] >> queries[i][3];
+    }
+
+    int result = Solution::xorAfterQueries(nums, queries);
+    cout << result << endl;
+
+    return 0;
+}
