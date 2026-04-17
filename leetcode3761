@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int reverse(int x) {
+        int rev = 0;
+        while (x > 0) {
+            rev = rev * 10 + x % 10;
+            x /= 10;
+        }
+        return rev;
+    }
+
+    int minMirrorPairDistance(vector<int>& a) {
+        unordered_map<int, int> mpp;
+        int n = a.size(), ans = 1e6;
+
+        for (int i = 0; i < n; i++) {
+            if (mpp.count(a[i])) {
+                ans = min(ans, i - mpp[a[i]]);
+            }
+            mpp[reverse(a[i])] = i;
+        }
+        return ans == 1e6 ? -1 : ans;
+    }
+};
+
+int main() {
+    Solution obj;
+
+    int n;
+    cout << "Enter number of elements: ";
+    cin >> n;
+
+    vector<int> a(n);
+    cout << "Enter elements: ";
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    int result = obj.minMirrorPairDistance(a);
+    cout << "Minimum Mirror Pair Distance: " << result << endl;
+
+    return 0;
+}
