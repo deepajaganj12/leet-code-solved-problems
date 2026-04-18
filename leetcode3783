@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+
+class Solution {
+public:
+    int revnum(int a) {
+        if (a / 10 == 0) return a;
+        string s = to_string(a);
+        reverse(s.begin(), s.end());
+        return stoi(s);
+    }
+
+    int mirrorDistance(int n) {
+        return abs(n - revnum(n));
+    }
+};
+
+int main() {
+    Solution obj;
+
+    int n;
+    cout << "Enter a number: ";
+    cin >> n;
+
+    int result = obj.mirrorDistance(n);
+
+    cout << "Mirror Distance: " << result << endl;
+
+    return 0;
+}
