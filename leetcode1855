@@ -1,0 +1,26 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int maxDistance(vector<int>& A, vector<int>& B) {
+        int i = 0, j = 1;
+
+        for (; i < A.size() && j < B.size(); j++)
+            i += A[i] > B[j];
+
+        return j - i - 1;
+    }
+};
+
+int main() {
+    Solution obj;
+
+    vector<int> A = {55, 30, 5, 4, 2};
+    vector<int> B = {100, 20, 10, 10, 5};
+
+    cout << "Maximum Distance: " << obj.maxDistance(A, B) << endl;
+
+    return 0;
+}
