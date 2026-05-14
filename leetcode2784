@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+#include <bitset>
+using namespace std;
+
+class Solution {
+public:
+    bool isGood(vector<int>& nums) {
+        int n = nums.size() - 1;
+        bitset<201> seen;
+        bool dup = 0;
+
+        for (auto& num : nums) {
+            if (num > n) return false;
+
+            if (seen.test(num)) {
+                if (num < n || dup) return false;
+                dup = 1;
+                continue;
+            }
+
+            seen.set(num);
+        }
+
+        return true;
+    }
+};
+
+int main() {
+    int size;
+    cin >> size;
+
+    vector<int> nums(size);
+
+    for (int i = 0; i < size; i++) {
+        cin >> nums[i];
+    }
+
+    Solution obj;
+
+    if (obj.isGood(nums))
+        cout << "true";
+    else
+        cout << "false";
+
+    return 0;
+}
