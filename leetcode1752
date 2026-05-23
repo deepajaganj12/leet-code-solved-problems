@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    bool check(vector<int>& nums) {
+        bool fault = 0;
+        int n = nums.size();
+
+        for (int i = 0; i < n; i++)
+            if (nums[i] > nums[(i + 1) % n] && exchange(fault, 1))
+                return 0;
+
+        return 1;
+    }
+};
+
+int main() {
+    Solution obj;
+
+    vector<int> nums;
+
+    int n;
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        nums.push_back(x);
+    }
+
+    if (obj.check(nums))
+        cout << "true";
+    else
+        cout << "false";
+
+    return 0;
+}
