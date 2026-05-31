@@ -1,0 +1,48 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    bool asteroidsDestroyed(int mass, vector<int>& asteroids) {
+        sort(asteroids.begin(), asteroids.end());
+
+        long long m = mass;
+
+        for (int i = 0; i < asteroids.size(); i++) {
+            if (m < asteroids[i])
+                return false;
+
+            m += asteroids[i];
+        }
+
+        return true;
+    }
+};
+
+int main() {
+    int mass, n;
+
+    cout << "Enter initial mass: ";
+    cin >> mass;
+
+    cout << "Enter number of asteroids: ";
+    cin >> n;
+
+    vector<int> asteroids(n);
+
+    cout << "Enter asteroid masses: ";
+    for (int i = 0; i < n; i++) {
+        cin >> asteroids[i];
+    }
+
+    Solution sol;
+
+    if (sol.asteroidsDestroyed(mass, asteroids))
+        cout << "true" << endl;
+    else
+        cout << "false" << endl;
+
+    return 0;
+}
