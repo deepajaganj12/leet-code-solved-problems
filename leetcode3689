@@ -1,0 +1,23 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    static long long maxTotalValue(vector<int>& nums, int k) {
+        auto [m, M] = minmax_element(nums.begin(), nums.end());
+        return (long long)k * (*M - *m);
+    }
+};
+
+int main() {
+    vector<int> nums = {1, 3, 6, 10};
+    int k = 5;
+
+    long long result = Solution::maxTotalValue(nums, k);
+
+    cout << "Maximum Total Value: " << result << endl;
+
+    return 0;
+}
