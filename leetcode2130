@@ -1,0 +1,76 @@
+#include <iostream>
+#include <algorithm>
+#include <functional>
+
+using namespace std;
+
+struct ListNode {
+    int val;
+    ListNode* next;
+
+    ListNode(int x) {
+        val = x;
+        next = nullptr;
+    }
+};
+
+class Solution {
+public:
+    int pairSum(ListNode* head) {
+        int res = 0;
+        ListNode* left = head;
+
+        function<void(ListNode*)> dfs = [&](ListNode* right) {
+            if (right->next) {
+                dfs(right->next);
+            }
+
+            res = max(res, left->val + right->val);
+            left = left->next;
+        };
+
+        dfs(head);
+        return res;
+    }
+};
+
+int main() {
+    int n;
+    cout << "Enter the number of nodes (even number): ";
+    cin >> n;
+
+    if (n <= 0 || n % 2 != 0) {
+        cout << "The number of nodes must be a positive even number." << endl;
+        return 0;
+    }
+
+    ListNode* head = nullptr;
+    ListNode* tail = nullptr;
+
+    cout << "Enter the node values: ";
+    for (int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+
+        ListNode* newNode = new ListNode(x);
+
+        if (head == nullptr) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+    }
+
+    Solution sol;
+    cout << "Maximum twin sum: " << sol.pairSum(head) << endl;
+
+    while (head != nullptr) {
+        ListNode* temp = head;
+        head = head->next;
+        delete temp;
+    }
+
+    return 0;
+}
