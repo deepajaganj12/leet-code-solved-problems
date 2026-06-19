@@ -1,0 +1,33 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int largestAltitude(vector<int>& gain) {
+        int ans = 0, sum = 0;
+
+        for (auto& it : gain) {
+            sum += it;
+            int d = sum - ans;
+            ans += d & ~(d >> 0x1F);
+        }
+
+        return ans;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    vector<int> gain(n);
+    for (int i = 0; i < n; i++) {
+        cin >> gain[i];
+    }
+
+    Solution obj;
+    cout << obj.largestAltitude(gain) << endl;
+
+    return 0;
+}
