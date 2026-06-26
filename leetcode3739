@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    long long countMajoritySubarrays(vector<int>& nums, int target) {
+        int n = nums.size();
+        long long cnt = 0;
+
+        for (int i = 0; i < n; i++) {
+            int freq = 0;
+
+            for (int j = i; j < n; j++) {
+                if (nums[j] == target) {
+                    freq++;
+                }
+
+                int len = j - i + 1;
+
+                if (freq > len / 2) {
+                    cnt++;
+                }
+            }
+        }
+
+        return cnt;
+    }
+};
+
+int main() {
+    int n;
+    cout << "Enter size of array: ";
+    cin >> n;
+
+    vector<int> nums(n);
+
+    cout << "Enter array elements: ";
+    for (int i = 0; i < n; i++) {
+        cin >> nums[i];
+    }
+
+    int target;
+    cout << "Enter target element: ";
+    cin >> target;
+
+    Solution obj;
+    long long result = obj.countMajoritySubarrays(nums, target);
+
+    cout << "Number of majority subarrays: " << result << endl;
+
+    return 0;
+}
