@@ -1,0 +1,60 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <cmath>
+using namespace std;
+
+class Solution {
+public:
+    int maximumLength(vector<int>& nums) {
+        unordered_map<int, int> freq;
+
+        for (auto &n : nums)
+            freq[n]++;
+
+        int res = (freq[1] - 1) | 1;
+        freq.erase(1);
+
+        for (auto &f : freq) {
+            int n = 0;
+            long long x = f.first;
+
+            int sq = sqrt(x);
+            if ((long long)sq * sq == x &&
+                freq.count(sq) &&
+                freq[sq] > 1)
+                continue;
+
+            while (x < 31623 &&
+                   freq.count(x) &&
+                   freq[x] > 1) {
+                n += 2;
+                x = x * x;
+            }
+
+            res = max(res, n + ((freq.count(x) << 1) - 1));
+        }
+
+        return res;
+    }
+};
+
+int main() {
+    Solution obj;
+
+    int n;
+    cout << "Enter size of array: ";
+    cin >> n;
+
+    vector<int> nums(n);
+
+    cout << "Enter elements: ";
+    for (int i = 0; i < n; i++)
+        cin >> nums[i];
+
+    cout << "Maximum Length = "
+         << obj.maximumLength(nums)
+         << endl;
+
+    return 0;
+}
